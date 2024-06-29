@@ -41,7 +41,7 @@ jobs:
           pip install -r requirements.txt
           python manage.py test taskManager
 
-    secret_scanning:
+  secret_scanning:
     runs-on: ubuntu-20.04
     needs: test
     steps:
