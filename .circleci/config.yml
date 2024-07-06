@@ -17,6 +17,17 @@ jobs:
           pip install -r requirements.txt
           python manage.py test taskManager
 
+  sast:
+    machine: true
+    steps:
+      - checkout
+
+      - run: docker run --rm -v $(pwd):/src hysnsec/bandit -r /src -f json -o /src/bandit-output.json
+
+      - store_artifacts:
+          path: bandit-output.json
+          destination: bandit-artifact
+
   integration:
     docker:
       - image: python:3.6
@@ -42,9 +53,12 @@ workflows:
       - test:
           requires:
             - build 
-      - integration:
+      - sast:
           requires:
             - test
+      - integration:
+          requires:
+            - sast
       - prod:
           type: approval
           requires:
