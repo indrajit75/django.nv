@@ -49,7 +49,7 @@ jobs:
       - run: exit 1
         continue-on-error: true
 
-    nuclei-scan:
+  nuclei-scan:
       runs-on: ubuntu-20.04
       needs: test
       steps:
